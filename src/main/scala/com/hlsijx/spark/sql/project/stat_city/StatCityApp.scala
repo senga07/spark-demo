@@ -1,6 +1,6 @@
 package com.hlsijx.spark.sql.project.stat_city
 
-import com.hlsijx.spark.sql.factory.SparkFactory
+import com.hlsijx.spark.sql.factory.SparkSqlFactory
 import com.hlsijx.spark.sql.project.stat_city.dao.VideoAccessCityStatDao
 import com.hlsijx.spark.sql.system.PathConfig
 import org.apache.spark.sql._
@@ -13,10 +13,10 @@ object StatCityApp {
 
   def main(args: Array[String]): Unit = {
 
-    val sparkSession = SparkFactory.createSpark("StatCityApp")
+    val sparkSession = SparkSqlFactory.createSpark("StatCityApp")
 
     //读取文件
-    val dateFrame = SparkFactory.readParquetFile(sparkSession, PathConfig.outputPath)
+    val dateFrame = SparkSqlFactory.readParquetFile(sparkSession, PathConfig.outputPath)
 
     //进行统计
     val result = videoAccessStatByCity(sparkSession, dateFrame)

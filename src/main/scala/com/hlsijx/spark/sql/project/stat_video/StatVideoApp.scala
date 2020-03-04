@@ -1,6 +1,6 @@
 package com.hlsijx.spark.sql.project.stat_video
 
-import com.hlsijx.spark.sql.factory.SparkFactory
+import com.hlsijx.spark.sql.factory.SparkSqlFactory
 import com.hlsijx.spark.sql.project.stat_video.dao.VideoAccessStatDao
 import com.hlsijx.spark.sql.system.PathConfig
 import org.apache.spark.sql._
@@ -12,10 +12,10 @@ object StatVideoApp {
 
   def main(args: Array[String]): Unit = {
 
-    val sparkSession = SparkFactory.createSpark("StatVideoApp")
+    val sparkSession = SparkSqlFactory.createSpark("StatVideoApp")
 
     //读取文件
-    val dateFrame = SparkFactory.readParquetFile(sparkSession, PathConfig.outputPath)
+    val dateFrame = SparkSqlFactory.readParquetFile(sparkSession, PathConfig.outputPath)
 
     //进行统计
     val result = videoAccessStat(sparkSession, dateFrame, 0)

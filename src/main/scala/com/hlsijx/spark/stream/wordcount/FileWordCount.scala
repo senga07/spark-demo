@@ -1,23 +1,19 @@
 package com.hlsijx.spark.stream.wordcount
 
-import com.hlsijx.spark.WindowsEnv
-import org.apache.spark.SparkConf
-import org.apache.spark.streaming.{Seconds, StreamingContext}
+import com.hlsijx.spark.stream.factory.SparkStreamFactory
 
 /**
   * Counts words in UTF8 encoded
   * Files must be written to the monitored directory by "moving" them from another
   * location within the same file system. File names starting with . are ignored.
+  *
+  * Key Func:textFileStream
   */
 object FileWordCount {
 
   def main(args: Array[String]): Unit = {
 
-    WindowsEnv.setWinEnv()
-
-    val sparkConf = new SparkConf().setAppName("FileWordCount").setMaster("local")
-
-    val ssc = new StreamingContext(sparkConf, Seconds(5))
+    val ssc = SparkStreamFactory.createStreamingContext("FileWordCount")
 
     val lines = ssc.textFileStream("./test-data")
 
@@ -25,7 +21,6 @@ object FileWordCount {
 
     wordCount.print()
 
-    ssc.start()
-    ssc.awaitTermination()
+    SparkStreamFactory.startStreamingJob(ssc)
   }
 }

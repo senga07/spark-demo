@@ -1,6 +1,6 @@
 package com.hlsijx.spark.sql.project.stat_traffic.yarn
 
-import com.hlsijx.spark.sql.factory.SparkFactory
+import com.hlsijx.spark.sql.factory.SparkSqlFactory
 import com.hlsijx.spark.sql.project.stat_traffic.StatTrafficLocalApp
 import com.hlsijx.spark.sql.system.PathConfig
 
@@ -19,7 +19,7 @@ object StatTrafficApp {
     PathConfig.isOnYarn = true
     PathConfig.outputPath = args(0)
 
-    val sparkSession = SparkFactory.createSpark("StatTrafficApp")
+    val sparkSession = SparkSqlFactory.createSpark("StatTrafficApp")
 
     StatTrafficLocalApp.processOn(sparkSession)
   }

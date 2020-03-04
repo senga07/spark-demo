@@ -1,32 +1,27 @@
 package com.hlsijx.spark.stream.wordcount
 
-import com.hlsijx.spark.WindowsEnv
-import org.apache.spark.SparkConf
-import org.apache.spark.streaming.{Seconds, StreamingContext}
+import com.hlsijx.spark.{CommonConfig}
+import com.hlsijx.spark.stream.factory.SparkStreamFactory
 
 /**
   * Counts words in UTF8 encoded, '\n' delimited text received from the network every second.
   * To run this on your local machine, you need to first run a Netcat server
   *    `$ nc -lk 9999`
+  *
+  * Key Func:socketTextStream
   */
 object NetworkWordCount {
 
   def main(args: Array[String]): Unit = {
 
-    WindowsEnv.setWinEnv()
+    val ssc = SparkStreamFactory.createStreamingContext("NetworkWordCount")
 
-    val hostname = "hlsijx"
-    val port = 9999
+    val lines = ssc.socketTextStream(CommonConfig.hostname, CommonConfig.port)
 
-    val sparkConf = new SparkConf().setMaster("local[2]").setAppName("NetworkWordCount")
-
-    val ssc = new StreamingContext(sparkConf, Seconds(3))
-    val lines = ssc.socketTextStream(hostname, port)
     val wordCount = lines.flatMap(_.split(" ")).map((_, 1)).reduceByKey(_ + _)
 
     wordCount.print()
 
-    ssc.start()
-    ssc.awaitTermination()
+    SparkStreamFactory.startStreamingJob(ssc)
   }
 }

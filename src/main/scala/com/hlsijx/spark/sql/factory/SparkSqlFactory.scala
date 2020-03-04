@@ -6,7 +6,7 @@ import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.{DataFrame, SaveMode, SparkSession}
 
 
-object SparkFactory {
+object SparkSqlFactory {
 
   /**
     * 创建一个SparkSession

@@ -1,6 +1,6 @@
 package com.hlsijx.spark.sql.project.etl.yarn
 
-import com.hlsijx.spark.sql.factory.SparkFactory
+import com.hlsijx.spark.sql.factory.SparkSqlFactory
 import com.hlsijx.spark.sql.project.etl.LogETLLocalApp
 import com.hlsijx.spark.sql.system.PathConfig
 
@@ -31,16 +31,16 @@ object LogETLApp {
     PathConfig.inputPath = args(0)
     PathConfig.outputPath = args(1)
 
-    val sparkSession = SparkFactory.createSpark("LogETLApp")
+    val sparkSession = SparkSqlFactory.createSpark("LogETLApp")
 
     //读取文本文件
-    val logRDD = SparkFactory.readTextFile(sparkSession, PathConfig.inputPath)
+    val logRDD = SparkSqlFactory.readTextFile(sparkSession, PathConfig.inputPath)
 
     //通过两次ETL后得到处理后的数据
     val dateFrame = LogETLLocalApp.etlStepTwo(sparkSession, LogETLLocalApp.etlStepOne(logRDD))
 
     //将数据写出到指定路径，以date字段进行分区，只输出一个文件
-    SparkFactory.writeParquetFile(dateFrame, "date", PathConfig.outputPath, 1)
+    SparkSqlFactory.writeParquetFile(dateFrame, "date", PathConfig.outputPath, 1)
 
     sparkSession.stop()
   }

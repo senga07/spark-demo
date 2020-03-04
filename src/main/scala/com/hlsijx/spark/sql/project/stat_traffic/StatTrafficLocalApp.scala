@@ -1,6 +1,6 @@
 package com.hlsijx.spark.sql.project.stat_traffic
 
-import com.hlsijx.spark.sql.factory.SparkFactory
+import com.hlsijx.spark.sql.factory.SparkSqlFactory
 import com.hlsijx.spark.sql.project.stat_traffic.dao.VideoAccessTrafficStatDao
 import com.hlsijx.spark.sql.system.PathConfig
 import org.apache.spark.sql._
@@ -12,14 +12,14 @@ object StatTrafficLocalApp {
 
   def main(args: Array[String]): Unit = {
 
-    val sparkSession = SparkFactory.createSpark("StatTrafficApp")
+    val sparkSession = SparkSqlFactory.createSpark("StatTrafficApp")
 
     processOn(sparkSession)
   }
 
   def processOn(sparkSession: SparkSession): Unit ={
     //读取文件
-    val dateFrame = SparkFactory.readParquetFile(sparkSession, PathConfig.outputPath)
+    val dateFrame = SparkSqlFactory.readParquetFile(sparkSession, PathConfig.outputPath)
 
     //进行统计
     val result = videoAccessStatByTraffic(sparkSession, dateFrame)
