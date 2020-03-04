@@ -1,6 +1,6 @@
-package com.hlsijx.spark.stream
+package com.hlsijx.spark.stream.wordcount
 
-import com.hlsijx.spark.sql.system.WindowsEnv
+import com.hlsijx.spark.WindowsEnv
 import org.apache.spark.SparkConf
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 

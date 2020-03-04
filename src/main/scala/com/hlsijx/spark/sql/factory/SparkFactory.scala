@@ -1,6 +1,7 @@
 package com.hlsijx.spark.sql.factory
 
-import com.hlsijx.spark.sql.system.{PathConfig, SparkSqlProperties, WindowsEnv}
+import com.hlsijx.spark.WindowsEnv
+import com.hlsijx.spark.sql.system.{PathConfig, SparkSqlProperties}
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.{DataFrame, SaveMode, SparkSession}
 

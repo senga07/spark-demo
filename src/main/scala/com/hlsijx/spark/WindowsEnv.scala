@@ -1,4 +1,4 @@
-package com.hlsijx.spark.sql.system
+package com.hlsijx.spark
 
 /**
   * 本地window环境参数设置
