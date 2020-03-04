@@ -16,6 +16,7 @@ object StatefulWordCount {
 
     /**
       * 1、必须要设置checkponit
+      * checkponit需要配置目录，生产环境建议放到HDFS上
       */
     ssc.checkpoint(CommonConfig.tmp_dir)
 

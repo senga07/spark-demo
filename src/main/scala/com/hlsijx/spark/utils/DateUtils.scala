@@ -1,4 +1,4 @@
-package com.hlsijx.spark.sql.utils
+package com.hlsijx.spark.utils
 
 import java.util.{Date, Locale}
 

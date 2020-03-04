@@ -2,7 +2,7 @@ package com.hlsijx.spark.sql.project.delete
 
 import java.sql.{Connection, PreparedStatement}
 
-import com.hlsijx.spark.sql.utils.MySqlUtils
+import com.hlsijx.spark.utils.MySqlUtils
 
 
 object DeleteStatData {

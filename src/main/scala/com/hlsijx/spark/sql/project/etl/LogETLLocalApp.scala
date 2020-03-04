@@ -2,7 +2,7 @@ package com.hlsijx.spark.sql.project.etl
 
 import com.hlsijx.spark.sql.factory.SparkSqlFactory
 import com.hlsijx.spark.sql.system.{PathConfig}
-import com.hlsijx.spark.sql.utils.{DateUtils, IPUtils, RegExpUtils}
+import com.hlsijx.spark.utils.{DateUtils, IPUtils, RegExpUtils}
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.{Row, SparkSession}
 import org.apache.spark.sql.types.{LongType, StringType, StructField, StructType}

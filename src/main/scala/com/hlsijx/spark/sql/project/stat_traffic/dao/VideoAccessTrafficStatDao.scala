@@ -4,7 +4,7 @@ import java.sql.{Connection, PreparedStatement}
 
 import com.hlsijx.spark.sql.project.delete.DeleteStatData
 import com.hlsijx.spark.sql.project.stat_traffic.model.VideoAccessTrafficStat
-import com.hlsijx.spark.sql.utils.MySqlUtils
+import com.hlsijx.spark.utils.MySqlUtils
 import org.apache.spark.sql.DataFrame
 
 import scala.collection.mutable.ListBuffer
