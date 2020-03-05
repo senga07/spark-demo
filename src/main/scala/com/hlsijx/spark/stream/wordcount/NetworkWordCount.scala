@@ -7,8 +7,9 @@ import com.hlsijx.spark.stream.factory.SparkStreamFactory
   * Counts words in UTF8 encoded, '\n' delimited text received from the network every second.
   * To run this on your local machine, you need to first run a Netcat server
   *    `$ nc -lk 9999`
+  * 实时监听9999端口的输入内容，并进行词频统计
   *
-  * Key Func:socketTextStream
+  * Key Func:socketTextStream（）
   */
 object NetworkWordCount {
 

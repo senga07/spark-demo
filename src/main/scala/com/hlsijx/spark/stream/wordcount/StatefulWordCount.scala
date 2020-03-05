@@ -6,6 +6,8 @@ import com.hlsijx.spark.stream.factory.SparkStreamFactory
 /**
   * Counts words in UTF8 encoded
   * Counting words continuously
+  *
+  * 监听9999端口进行词频统计，并将每次的结果进行累加
   * Key Func:updateStateByKey
   */
 object StatefulWordCount {

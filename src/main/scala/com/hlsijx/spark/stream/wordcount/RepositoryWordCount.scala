@@ -8,6 +8,8 @@ import com.hlsijx.spark.stream.factory.SparkStreamFactory
 
 /**
   * Save word count result to Mysql
+  * 实时监听9999端口的输入内容进行词频统计，并将结果保存到MySql中
+  *
   * Key Func:foreachRDD
   */
 object RepositoryWordCount {
@@ -24,6 +26,7 @@ object RepositoryWordCount {
     /**
       * 最优实现：
       * 数据库连接使用连接池，使用完毕后或超时将连接放回连接池
+      * 关键点：要在每个partition下获取数据库连接
       */
     wordCount.foreachRDD { rdd =>
       rdd.foreachPartition { partitionOfRecords =>
