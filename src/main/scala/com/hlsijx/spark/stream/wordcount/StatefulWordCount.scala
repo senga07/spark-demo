@@ -22,7 +22,7 @@ object StatefulWordCount {
       */
     ssc.checkpoint(CommonConfig.tmp_dir)
 
-    val lines = ssc.socketTextStream(CommonConfig.hostname, CommonConfig.port)
+    val lines = ssc.socketTextStream(CommonConfig.hostname, CommonConfig.netcat_port)
 
     val pairs = lines.flatMap(_.split(" ")).map((_, 1))
 

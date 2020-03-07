@@ -18,7 +18,7 @@ object RepositoryWordCount {
 
     val ssc = SparkStreamFactory.createStreamingContext("RepositoryWordCount")
 
-    val lines = ssc.socketTextStream(CommonConfig.hostname, CommonConfig.port)
+    val lines = ssc.socketTextStream(CommonConfig.hostname, CommonConfig.netcat_port)
 
     val wordCount = lines.flatMap(_.split(" ")).map((_, 1)).reduceByKey(_ + _)
     wordCount.print()

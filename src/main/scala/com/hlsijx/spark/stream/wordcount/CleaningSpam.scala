@@ -31,7 +31,7 @@ object CleaningSpam {
       * 20200111 222@qq.com
       * 20200111 444@qq.com
       */
-    val lines = ssc.socketTextStream(CommonConfig.hostname, CommonConfig.port)
+    val lines = ssc.socketTextStream(CommonConfig.hostname, CommonConfig.netcat_port)
 
     /**
       * email格式

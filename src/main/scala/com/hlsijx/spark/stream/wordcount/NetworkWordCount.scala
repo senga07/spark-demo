@@ -20,7 +20,7 @@ object NetworkWordCount {
 
     val ssc = SparkStreamFactory.createStreamingContext("NetworkWordCount")
 
-    val lines = ssc.socketTextStream(CommonConfig.hostname, CommonConfig.port)
+    val lines = ssc.socketTextStream(CommonConfig.hostname, CommonConfig.netcat_port)
 
     countBySql(lines)
 
