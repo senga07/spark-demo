@@ -1,16 +1,16 @@
-agent.sources = netcat_source
-agent.sinks = spark_sink
-agent.channels = memory_channel
+integration-agent.sources = netcat_source
+integration-agent.sinks = spark_sink
+integration-agent.channels = memory_channel
 
-agent.sources.netcat_source.type = netcat
-agent.sources.netcat_source.bind = hlsijx
-agent.sources.netcat_source.port = 9999
+integration-agent.sources.netcat_source.type = netcat
+integration-agent.sources.netcat_source.bind = hlsijx
+integration-agent.sources.netcat_source.port = 9999
 
-agent.sinks.spark_sink.type = org.apache.spark.streaming.flume.sink.SparkSink
-agent.sinks.spark_sink.hostname = hlsijx
-agent.sinks.spark_sink.port = 11111
+integration-agent.sinks.spark_sink.type = org.apache.spark.streaming.flume.sink.SparkSink
+integration-agent.sinks.spark_sink.hostname = hlsijx
+integration-agent.sinks.spark_sink.port = 11111
 
-agent.channels.memory_channel.type = memory
+integration-agent.channels.memory_channel.type = memory
 
-agent.sources.netcat_source.channels = memory_channel
-agent.sinks.spark_sink.channel = memory_channel
+integration-agent.sources.netcat_source.channels = memory_channel
+integration-agent.sinks.spark_sink.channel = memory_channel
