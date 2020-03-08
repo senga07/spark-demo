@@ -1,0 +1,16 @@
+integration-agent.sources = netcat_source
+integration-agent.sinks = avro_sink
+integration-agent.channels = memory_channel
+
+integration-agent.sources.netcat_source.type = netcat
+integration-agent.sources.netcat_source.bind = hlsijx
+integration-agent.sources.netcat_source.port = 9999
+
+integration-agent.sinks.avro_sink.type = avro
+integration-agent.sinks.avro_sink.hostname = hlsijx
+integration-agent.sinks.avro_sink.port = 11111
+
+integration-agent.channels.memory_channel.type = memory
+
+integration-agent.sources.netcat_source.channels = memory_channel
+integration-agent.sinks.avro_sink.channel = memory_channel
