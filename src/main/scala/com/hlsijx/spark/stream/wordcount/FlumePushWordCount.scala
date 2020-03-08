@@ -1,7 +1,5 @@
 package com.hlsijx.spark.stream.wordcount
 
-import com.hlsijx.spark.{CommonConfig, WindowsEnv}
-import com.hlsijx.spark.stream.factory.SparkStreamFactory
 import org.apache.spark.SparkConf
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 import org.apache.spark.streaming.flume.FlumeUtils
@@ -20,14 +18,14 @@ import org.apache.spark.streaming.flume.FlumeUtils
   *
   * 2、upload target/spark-1.0.jar to `/data/spark-2.4.4-bin-2.6.0-cdh5.15.1/lib`
   *
-  * 3、start spark application
+  * 3、launch spark application
   * bin/spark-submit \
   * --class com.hlsijx.spark.stream.wordcount.FlumePushWordCount \
   * --master local[2] \
   * --packages org.apache.spark:spark-streaming-flume_2.11:2.4.4 \
   * /data/spark-2.4.4-bin-2.6.0-cdh5.15.1/lib/spark-1.0.jar hlsijx 11111
   *
-  * 4、start flume
+  * 4、launch flume
   * flume-ng agent \
   * --conf $FLUME_HOME/conf \
   * --conf-file $FLUME_HOME/conf/streaming-flume-integration-push.conf \
