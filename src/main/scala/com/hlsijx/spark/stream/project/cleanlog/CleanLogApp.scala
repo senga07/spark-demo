@@ -1,11 +1,15 @@
 package com.hlsijx.spark.stream.project.cleanlog
 
-import com.hlsijx.spark.utils.DateUtils
+import com.hlsijx.spark.stream.project.cleanlog.domain.{ClickLog, StatisticCourse}
+import com.hlsijx.spark.stream.project.cleanlog.statistic.dao.StatisticCourseDao
+import com.hlsijx.spark.utils.{DateUtils}
 import com.hlsijx.spark.utils.DateUtils.{formatOne, formatTwo}
 import kafka.serializer.StringDecoder
 import org.apache.spark.SparkConf
 import org.apache.spark.streaming.kafka.KafkaUtils
 import org.apache.spark.streaming.{Seconds, StreamingContext}
+
+import scala.collection.mutable.ListBuffer
 
 /**
   * 实时数据清洗
@@ -29,9 +33,19 @@ object CleanLogApp {
     val directKafkaStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topics)
 
     //132.87.29.124	  2020-03-06 05:56:10	  "GET /class/146.html HTTP/1.1"  200	  https://www.baidu.com/s?wd=spark sql实战
-    val lines = directKafkaStream.map(_._2).map(line => getClickLog(line)).filter(log => log.courseId > 0)
-    lines.print()
+    val cleanData = directKafkaStream.map(_._2).map(line => getClickLog(line)).filter(log => log.courseId > 0)
 
+    cleanData.map(line =>{
+      (line.time.substring(0, 8) + "_" + line.courseId, 1)
+    }).reduceByKey(_ + _).foreachRDD(rdd =>{
+      rdd.foreachPartition(partitionRecords => {
+        val statisticCourseList = new ListBuffer[StatisticCourse]
+        partitionRecords.foreach(record => {
+          statisticCourseList.append(StatisticCourse(record._1, record._2))
+        })
+        StatisticCourseDao.save(statisticCourseList)
+      })
+    })
     ssc.start()
     ssc.awaitTermination()
   }
