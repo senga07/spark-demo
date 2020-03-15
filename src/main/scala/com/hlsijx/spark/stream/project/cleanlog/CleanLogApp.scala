@@ -35,19 +35,26 @@ object CleanLogApp {
     //132.87.29.124	  2020-03-06 05:56:10	  "GET /class/146.html HTTP/1.1"  200	  https://www.baidu.com/s?wd=spark sql实战
     val cleanData = directKafkaStream.map(_._2).map(line => getClickLog(line)).filter(log => log.courseId > 0)
 
-    cleanData.map(line =>{
-      (line.time.substring(0, 8) + "_" + line.courseId, 1)
-    }).reduceByKey(_ + _).foreachRDD(rdd =>{
-      rdd.foreachPartition(partitionRecords => {
-        val statisticCourseList = new ListBuffer[StatisticCourse]
-        partitionRecords.foreach(record => {
-          statisticCourseList.append(StatisticCourse(record._1, record._2))
-        })
-        StatisticCourseDao.save(statisticCourseList)
-      })
-    })
+    //转换为(rowkey, count)的对象格式
+    val temp = cleanData.map(line => (line.time.substring(0, 8) + "_" + line.courseId, 1)).reduceByKey(_ + _)
+
+    //保存到HBase
+    temp.foreachRDD(rdd => rdd.foreachPartition(saveStatisticCourse))
+
     ssc.start()
     ssc.awaitTermination()
+  }
+
+  /**
+    * 保存每一个Partition下的数据
+    */
+  def saveStatisticCourse(partitionRecords : Iterator[(String, Int)]){
+
+    val statisticCourseList = new ListBuffer[StatisticCourse]
+
+    partitionRecords.foreach(record => statisticCourseList.append(StatisticCourse(record._1, record._2)))
+
+    StatisticCourseDao.save(statisticCourseList)
   }
 
   def getClickLog(line : String): ClickLog ={

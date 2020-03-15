@@ -1,6 +1,5 @@
 package com.hlsijx.spark.utils;
 
-import com.hlsijx.spark.CommonConfig;
 import com.hlsijx.spark.kafka.constants.HBaseProperties;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.client.*;
@@ -35,6 +34,17 @@ public class HBaseUtils {
         return instance;
     }
 
+    public void save(String tableName, String row, String family,
+                     String qualifier, String value){
+        HTable table = getTable(tableName);
+        try {
+            table.incrementColumnValue(Bytes.toBytes(row), Bytes.toBytes(family),
+                    Bytes.toBytes(qualifier), Long.valueOf(value));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * 新增一条数据到HBase
      */
@@ -54,17 +64,20 @@ public class HBaseUtils {
     /**
      * 查询某一条记录
      */
-    public Result query(String tableName, String row, String family, String qualifier){
+    public String query(String tableName, String row, String family, String qualifier){
         HTable table = getTable(tableName);
 
         Get get = new Get(Bytes.toBytes(row));
-        get.addColumn(Bytes.toBytes(family), Bytes.toBytes(qualifier));
         try {
-            return table.get(get);
+            byte[] value = table.get(get).getValue(Bytes.toBytes(family), Bytes.toBytes(qualifier));
+            if (value.length == 0){
+                return "0";
+            }
+            return new String(value);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return "0";
     }
 
     /**
@@ -86,7 +99,9 @@ public class HBaseUtils {
         System.setProperty("hadoop.home.dir", localHadoopUrl);
         System.setProperty("HADOOP_USER_NAME", "root");
 
-        getInstance().add(CommonConfig.table(), "20201111_22",CommonConfig.family(), CommonConfig.qualifier(), "20");
+//        getInstance().add(CommonConfig.table(), "20201111_22",CommonConfig.family(), CommonConfig.qualifier(), "20");
+//        String value = getInstance().query(CommonConfig.table(), "20200306_128", CommonConfig.family(), CommonConfig.qualifier());
+//        System.out.println(value);
     }
 }
 

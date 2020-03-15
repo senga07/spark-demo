@@ -11,7 +11,8 @@ object StatisticCourseDao {
   def save(list : ListBuffer[StatisticCourse]){
     val instance = HBaseUtils.getInstance()
     for (ele <- list){
-      instance.add(CommonConfig.table, ele.dayCourseid, CommonConfig.family, CommonConfig.qualifier, ele.count.toString)
+      instance.save(CommonConfig.table, ele.dayCourseid, CommonConfig.family, CommonConfig.qualifier, ele.count.toString)
     }
   }
+
 }

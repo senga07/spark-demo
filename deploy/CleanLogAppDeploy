@@ -1,0 +1,23 @@
+1、打包
+    1）注释pom.xml的
+        <sourceDirectory>src/main/scala</sourceDirectory>
+        <testSourceDirectory>src/test/scala</testSourceDirectory>
+    2）增加plugin，解析中文注释
+        <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.1</version>
+            <configuration>
+                <source>1.8</source>
+                <target>1.8</target>
+                <encoding>utf8</encoding>
+            </configuration>
+        </plugin>
+    3）执行命令：mvn clean package -DskipTests
+    
+2、提交Spark任务
+spark-submit \
+--class com.hlsijx.spark.stream.project.cleanlog.CleanLogApp \
+--master local[2] \
+--packages org.apache.spark:spark-streaming-kafka-0-8_2.11:2.4.4 \
+--jars $(echo /data/hbase-1.2.0-cdh5.15.1/lib/*.jar|tr ' ' ',') \
+/data/spark-2.4.4-bin-2.6.0-cdh5.15.1/lib/spark-1.0.jar hlsijx:9092 hello-spark
