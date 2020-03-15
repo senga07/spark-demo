@@ -24,7 +24,7 @@ object KafkaDirect {
     val topics = topic.split(",").toSet
     val directKafkaStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topics)
 
-    val wordCount = directKafkaStream.map(_._2).count()
+    val wordCount = directKafkaStream.map(_._2)
 
     wordCount.print()
 

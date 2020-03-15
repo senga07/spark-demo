@@ -9,6 +9,18 @@ import org.apache.commons.lang3.time.FastDateFormat
   */
 object DateUtils {
 
+  def parse(time : String, beforeFormat : String, afterFormat : String): String ={
+    /**
+      * 建议使用FastDataFormat替代SimpleDateFormat
+      * 因为FastDataFormat是线程不安全的
+      */
+    val inputFormat = FastDateFormat.getInstance(beforeFormat)
+    val inputTime = inputFormat.parse(time).getTime
+
+    val outputFormat = FastDateFormat.getInstance(afterFormat)
+    outputFormat.format(new Date(inputTime))
+  }
+
   /**
     * 将时间格式转换
     * eg：10/Nov/2016:00:01:02 +0800 ==> 2016-11-10 00:01:02
@@ -19,10 +31,10 @@ object DateUtils {
       * 建议使用FastDataFormat替代SimpleDateFormat
       * 因为FastDataFormat是线程不安全的
       */
-    val inputFormat = FastDateFormat.getInstance("dd/MMM/yyyy:HH:mm:ss Z", Locale.ENGLISH)
+    val inputFormat = FastDateFormat.getInstance(formatThree, Locale.ENGLISH)
     val inputTime = inputFormat.parse(time).getTime
 
-    val outputFormat = FastDateFormat.getInstance("yyyy-MM-dd HH:mm:ss")
+    val outputFormat = FastDateFormat.getInstance(formatOne)
     outputFormat.format(new Date(inputTime))
   }
 
@@ -36,6 +48,10 @@ object DateUtils {
     time.substring(0, 10).replace("-", "")
   }
   def main(args: Array[String]): Unit = {
-    print(parse("10/Nov/2016:00:01:02 +0800"))
+    print(parse("2020-03-06 05:56:10", formatOne, formatTwo))
   }
+
+  val formatOne = "yyyy-MM-dd HH:mm:ss"
+  val formatTwo = "yyyyMMddHHmmss"
+  val formatThree = "dd/MMM/yyyy:HH:mm:ss Z"
 }
