@@ -8,7 +8,7 @@
         <scala.version>2.11.12</scala.version>
         <spark.version>2.4.4</spark.version>
         <poi.version>3.14</poi.version>
-        <mysql.version>5.1.38</mysql.version>
+        <mysql.version>8.0.16</mysql.version>
         <hive.version>1.2.1.spark2</hive.version>
         <kafka.version>0.9.0.0</kafka.version>
         <hadoop.version>2.6.0-cdh5.15.1</hadoop.version>
